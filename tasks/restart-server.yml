@@ -1,0 +1,16 @@
+---
+  #- debug: msg="ansible_default_ipv4= {{ansible_default_ipv4}}"
+  - debug: msg="Server= {{ansible_ssh_host}}:{{ansible_ssh_port}}"
+
+  - name: restart machine
+    shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+    async: 1
+    poll: 0
+    become: true
+    ignore_errors: true
+
+
+  - name: waiting for server to come back
+    become: false
+    local_action:
+      wait_for port=22 host={{ ansible_default_ipv4.address }} delay=1 timeout=120 state=present

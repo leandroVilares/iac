@@ -1,0 +1,24 @@
+---
+- hosts: HML_APP
+  remote_user: clouduser
+
+  vars_files:
+    - variables.yml
+
+  tasks:
+    - include: tasks/prepare-host-server.yml
+    - include: tasks/restart-server.yml
+    - include: tasks/install-docker-server.yml
+    - include: tasks/restart-server.yml
+    - include: tasks/prepare-app-install.yml
+      vars:
+        app_profiles: common,oracle-dev
+    - include: tasks/install-app.yml
+      vars:
+        container_list: [
+          {
+            name: romaneio-api-1,
+            ports: "8080:8080/tcp"
+          }
+        ]
+

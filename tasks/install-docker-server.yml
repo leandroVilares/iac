@@ -1,0 +1,36 @@
+---
+  - name: Get remote kernel version.
+    shell: uname -r
+    register: kernel_sufix
+
+  - debug: msg="Remote kernel version is {{kernel_sufix.stdout}}"
+
+  - name: install docker required packages
+    become: yes
+    apt: pkg={{item}} state=latest allow_unauthenticated=yes update_cache=yes 
+    with_items:
+     - "linux-image-extra-{{kernel_sufix.stdout}}"
+     - apparmor
+     - python-pycurl
+     - python-pip
+
+  - name: Install docker
+    become: yes
+    shell: curl -sSL https://get.docker.com/ | sh
+    environment: "{{proxy_env}}"
+
+
+  - name: Configure Docker HTTP Proxy
+    become: yes
+    lineinfile: dest="/etc/default/docker" regexp="^export http_proxy=" line="export http_proxy={{proxy_env.http_proxy}}"
+  - name: Configure Docker HTTPS Proxy
+    become: yes
+    lineinfile: dest="/etc/default/docker" regexp="^export https_proxy=" line="export https_proxy={{proxy_env.https_proxy}}"
+
+  - name: Add clouduser to group docker
+    become: yes
+    command: usermod -aG docker clouduser
+
+  - name: Restart docker
+    become: yes
+    command: service docker restart

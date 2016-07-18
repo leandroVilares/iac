@@ -1,0 +1,14 @@
+Configuração do servidor de aplicação.
+
+Para que o servidor de aplicação esteja devidamente configurado execute os seguintes passos:
+- Certifique-se de que o servidor esteja acessível e que possua uma versão do ubuntu-server instalada.
+- Exclua caso exita o arquivo Romaneio-0.0.1-SNAPSHOT.jar do diretório onde esse README se encontra.
+- Copie o arquivo gerado em target/Romaneio-0.0.1-SNAPSHOT.jar para a raiz deste diretório.
+- Altere o arquivo inventory.yml adicionando o ambiente desejado.
+- Instale o ansible - https://www.ansible.com
+- Implante a chave ssh publica no servidor:$ ssh-copy-id -i ./ssh_keys/id_rsa.pub clouduser@IP_DO_SERVIDOR
+- Execute o ansible:$ ansible-playbook --private-key=./ssh_keys/id_rsa -i ./inventory.yaml playbook.yaml
+    Aguarde, pois a execução pode demorar bastante.
+
+Após a execução desses passos o servidor deverá estar devidamente configurado.
+O diretório onde o projeto foi instlado é: /home/clouduser/apps/apis/romaneio.

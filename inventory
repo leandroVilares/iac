@@ -1,0 +1,6 @@
+[DEV_APP]
+romaneio_api ansible_port=22 ansible_host=10.152.120.68
+
+[HML_APP]
+romaneio_api-1 ansible_port=22 ansible_host=10.152.120.134
+romaneio_api-2 ansible_port=22 ansible_host=10.152.120.135
