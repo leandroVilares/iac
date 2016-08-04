@@ -1,0 +1,17 @@
+---
+# Configurações de proxy
+proxy_env:
+  http_proxy: http://proxy.nuvemluiza.intranet:8080
+  https_proxy: http://proxy.nuvemluiza.intranet:8080
+
+
+# Nome da aplicação
+app_name: romaneio
+
+# Diretório de instalação da aplicação
+app_install_dir: "/apps/apis/"
+
+# Git code configurations
+GIT_REPO: "git@bitbucket.org:magazineluiza-ondemand/api-romaneio.git"
+GIT_CHECKOUT_DIR: "{{playbook_dir}}/temp/git/api-romaneio"
+GIT_KEY_FILE: "{{playbook_dir}}/ssh_keys/id_rsa"

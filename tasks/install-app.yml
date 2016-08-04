@@ -4,7 +4,8 @@
     file: path={{app_install_dir}} state=absent
 
   - name: Create app dir
-    file: path="{{app_install_dir}}/{{app_name}}" state=directory
+    become: yes
+    file: path="{{app_install_dir}}/{{app_name}}" state=directory mode="u+rwx,g+rwx,o+rwx"
 
   - name: Upload app
     copy: src="{{item}}" dest="{{app_install_dir}}"
@@ -12,15 +13,6 @@
       - "temp/{{app_name}}"
       - "temp/Dockerfile"
 
-
-  - name: install python-pip package
-    become: yes
-    apt: pkg="python-pip" state=present update_cache=yes allow_unauthenticated=yes
-    environment: "{{proxy_env}}"
-
-  - name: Install docker-py module
-    become: yes
-    command: pip install --proxy={{http_proxy}} docker-py
 
   - name: Setting run script perms
     file: path="{{app_install_dir}}/{{app_name}}/run.sh" mode="u+rwx,g-w,g+x,o-rwx"
@@ -45,14 +37,9 @@
       tag: v1
       path: "{{app_install_dir}}"
 
-
-
-
-
-
-  - name: "Test"
-    debug: msg="Valor é {{item}}"
-    with_items: "{{container_list}}"
+#  - name: "Test"
+#    debug: msg="Valor é {{item}}"
+#    with_items: "{{container_list}}"
     
   - name: Start containers
     docker_container:

@@ -1,0 +1,57 @@
+---
+
+- debug: msg="Kernel version is {{ansible_kernel}}"
+
+- name: Verify if docker-engine is installed
+  shell: dpkg -s docker-engine
+  args:
+    warn: no
+  ignore_errors: true
+  changed_when: False
+  register: is_docker_installed
+
+- name: install docker required packages
+  become: yes
+  apt: pkg={{item}} state=latest allow_unauthenticated=yes update_cache=yes
+  with_items:
+   - "linux-image-extra-{{ansible_kernel}}"
+   - apparmor
+   - python-pycurl
+   - python-pip
+  when: is_docker_installed.failed is defined
+  notify:
+    - restart server
+    - wait server
+
+- name: Install docker
+  become: yes
+  shell: curl -sSL https://get.docker.com/ | sh
+  args:
+    warn: no
+  environment: "{{proxy_env}}"
+  when: is_docker_installed.failed is defined
+  notify:
+    - restart docker
+
+
+- name: Install docker-py module
+  become: yes
+  command: pip install --proxy={{proxy_env.http_proxy}} docker-py
+
+
+- name: Configure Docker HTTP Proxy
+  become: yes
+  lineinfile: dest="/etc/default/docker" regexp="{{item.regexp}}" line="{{item.line}}"
+  with_items:
+    - {regexp: "export http_proxy", line: "export http_proxy=\"{{proxy_env.http_proxy}}\""}
+    - {regexp: "export https_proxy", line: "export https_proxy=\"{{proxy_env.https_proxy}}\""}
+  when: proxy_env is defined
+  notify:
+    - restart docker
+
+- name: Add clouduser to group docker
+  become: yes
+  command: usermod -aG docker {{ansible_ssh_user}}
+  when: is_docker_installed.failed is defined
+  notify:
+    - restart docker

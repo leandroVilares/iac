@@ -5,11 +5,14 @@
   vars_files:
     - variables.yml
 
+  roles:
+    - prepare-host-server
+    - install-docker-server
+    - git-checkout
+    - run-mvnw
+
+
   tasks:
-    - include: tasks/prepare-host-server.yml
-    - include: tasks/restart-server.yml
-    - include: tasks/install-docker-server.yml
-    - include: tasks/restart-server.yml
     - include: tasks/prepare-app-install.yml
       vars:
         app_profiles: common,oracle-hml
@@ -21,4 +24,3 @@
             ports: "8080:8080/tcp"
           }
         ]
-

@@ -2,7 +2,9 @@
 
   - name: Cleaning
     run_once: true
-    local_action: file path="temp" state=absent
+    local_action: file path="{{item}}" state=absent
+    with_items:
+          - "temp/{{app_name}}"
 
   - name: Create temp directories
     run_once: true
@@ -13,14 +15,14 @@
 
   - name: Discover app jar name
     run_once: true
-    local_action: shell basename $(ls ../target/*.jar | head -1)
+    local_action: shell basename $(ls {{GIT_CHECKOUT_DIR}}/target/*.jar | head -1)
     register: app_jar_name
 
   - name: "Copy files to temp/{{app_name}}"
     run_once: true
     local_action: copy src="{{item}}" dest="temp/{{app_name}}"
     with_items:
-      - "../target/{{app_jar_name.stdout_lines[0]}}"
+      - "{{GIT_CHECKOUT_DIR}}/target/{{app_jar_name.stdout_lines[0]}}"
       - resources/config
       - resources/run.sh
 

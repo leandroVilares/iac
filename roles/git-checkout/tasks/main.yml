@@ -1,0 +1,4 @@
+---
+
+- name: "Git Checkout."
+  local_action: git repo={{GIT_REPO}} dest={{GIT_CHECKOUT_DIR}} key_file={{GIT_KEY_FILE}}

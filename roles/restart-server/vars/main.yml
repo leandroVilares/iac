@@ -1,0 +1,3 @@
+---
+server_restart_delay: 30
+server_restart_timeout: 120

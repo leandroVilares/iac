@@ -1,0 +1,27 @@
+---
+- name: "Setting proxy."
+  debug: msg="{{item}}"
+  with_items:
+    - "Setting Proxy environment proxy vars"
+    - "{{proxy_env}}"
+
+- lineinfile: dest="{{item.dest}}" regexp="{{item.regexp}}" line="{{item.line}}"
+  become: yes
+  with_items:
+    - {dest: "/etc/environment", regexp: "http_proxy=.*", line: "http_proxy=\"{{proxy_env.http_proxy}}\";"}
+    - {dest: "/etc/environment", regexp: "https_proxy=.*", line: "https_proxy=\"{{proxy_env.https_proxy}}\";"}
+    - {dest: "/etc/apt/apt.conf", regexp: "Acquire::http::proxy", line: "Acquire::http::proxy \"{{proxy_env.http_proxy}}\";"}
+    - {dest: "/etc/apt/apt.conf", regexp: "Acquire::https::proxy", line: "Acquire::https::proxy \"{{proxy_env.https_proxy}}\";"}
+  when: proxy_env is defined
+
+- name: Upgrade SO
+  become: yes
+  apt: upgrade=dist update_cache=yes allow_unauthenticated=yes
+  notify:
+    - restart server
+    - wait server
+
+- name: install python-pip package
+  become: yes
+  apt: pkg="python-pip" state=present update_cache=yes allow_unauthenticated=yes
+  environment: "{{proxy_env}}"
