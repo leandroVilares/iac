@@ -6,7 +6,7 @@
     - prepare-host-server
     - install-docker-server
     - git-checkout
-    - run-mvnw
+    - {role: run-mvnw, MVNW_OPTIONS: "-Pdev"}
 
 
   tasks:
