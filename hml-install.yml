@@ -12,7 +12,7 @@
     - include: tasks/restart-server.yml
     - include: tasks/prepare-app-install.yml
       vars:
-        app_profiles: common,oracle-dev
+        app_profiles: common,oracle-hml
     - include: tasks/install-app.yml
       vars:
         container_list: [

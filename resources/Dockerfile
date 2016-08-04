@@ -1,5 +1,6 @@
 FROM alpine
 
+ENV TERM xterm
 ENV http_proxy http://proxy.nuvemluiza.intranet:8080
 ENV https_proxy http://proxy.nuvemluiza.intranet:8080
 
