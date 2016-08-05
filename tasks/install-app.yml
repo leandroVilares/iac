@@ -25,7 +25,7 @@
       state: absent
       force: yes
       name: log-api-romaneio
-      tag: v1
+      tag: latest
 
   - name: Build DockerImage
     become: yes
@@ -34,19 +34,18 @@
       name: log-api-romaneio
       state: present
       force: yes
-#      tag: v1
+      tag: latest
       path: "{{app_install_dir}}"
 
-#  - name: "Test"
-#    debug: msg="Valor é {{item}}"
-#    with_items: "{{container_list}}"
+  - name: "Test"
+    debug: msg="Valor é {{item}}"
+    with_items: "{{container_list}}"
     
   - name: Start containers
     docker_container:
       name: "{{item.name}}"
       hostname: "{{item.name}}"
-      image: log-api-romaneio
-#      image: log-api-romaneio:v1
+      image: log-api-romaneio:latest
       state: started
       restart: yes
       ports: "{{item.ports}}"

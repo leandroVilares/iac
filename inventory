@@ -1,3 +1,6 @@
+[LOCAL]
+local_machine ansible_port=22 ansible_host=127.0.0.1
+
 [DEV_APP]
 romaneio_api ansible_port=22 ansible_host=10.152.120.68
 

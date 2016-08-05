@@ -14,7 +14,7 @@
 
   - name: Discover app jar name
     run_once: true
-    local_action: shell basename $(ls {{GIT_CHECKOUT_DIR}}/target/*.jar | head -1)
+    local_action: shell basename $(ls {{GIT_CHECKOUT_DIR}}/target/*.?ar | head -1)
     register: app_jar_name
 
   - name: "Copy files to temp/{{app_name}}"

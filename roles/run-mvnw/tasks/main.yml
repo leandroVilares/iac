@@ -1,4 +1,4 @@
 ---
 
 - name: "MVN Wrapper"
-  local_action: shell chdir={{GIT_CHECKOUT_DIR}} ./mvnw {{MVNW_OPTIONS}}
+  local_action: shell chdir={{GIT_CHECKOUT_DIR}} ./mvnw {{MVNW_OPTIONS}} clean install

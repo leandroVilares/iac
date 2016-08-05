@@ -4,4 +4,4 @@ BASEDIR=$(dirname "$0")
 
 cd "${BASEDIR}"
 
-./__JAR_NAME__
+java -jar ./__JAR_NAME__
