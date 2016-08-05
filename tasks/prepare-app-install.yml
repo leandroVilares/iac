@@ -4,14 +4,13 @@
     run_once: true
     local_action: file path="{{item}}" state=absent
     with_items:
-          - "temp/{{app_name}}"
+      - "temp/{{app_name}}"
 
   - name: Create temp directories
     run_once: true
     local_action: file path="{{item}}" state=directory
     with_items:
       - "temp/{{app_name}}"
-      - "temp/{{app_name}}/config"
 
   - name: Discover app jar name
     run_once: true
@@ -23,16 +22,12 @@
     local_action: copy src="{{item}}" dest="temp/{{app_name}}"
     with_items:
       - "{{GIT_CHECKOUT_DIR}}/target/{{app_jar_name.stdout_lines[0]}}"
-      - resources/config
       - resources/run.sh
 
   - name: "Set jar name in run.sh"
     run_once: true
     local_action: replace dest="temp/{{app_name}}/run.sh" regexp="__JAR_NAME__" replace="{{app_jar_name.stdout_lines[0]}}"
 
-  - name: Set application profile
-    run_once: true
-    local_action: replace dest="temp/{{app_name}}/config/application.yml" regexp='REPLACE_PROFILES' replace='{{app_profiles}}'
 
   - name: Copy Dockerfile
     run_once: true

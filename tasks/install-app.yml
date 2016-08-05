@@ -34,7 +34,7 @@
       name: log-api-romaneio
       state: present
       force: yes
-      tag: v1
+#      tag: v1
       path: "{{app_install_dir}}"
 
 #  - name: "Test"
@@ -45,7 +45,8 @@
     docker_container:
       name: "{{item.name}}"
       hostname: "{{item.name}}"
-      image: log-api-romaneio:v1
+      image: log-api-romaneio
+#      image: log-api-romaneio:v1
       state: started
       restart: yes
       ports: "{{item.ports}}"

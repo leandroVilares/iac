@@ -3,16 +3,16 @@
   remote_user: clouduser
 
   roles:
-    - prepare-host-server
-    - install-docker-server
+    #- prepare-host-server
+    #- install-docker-server
     - git-checkout
-    - {role: run-mvnw, MVNW_OPTIONS: "-Pdev"}
+    - { role: run-mvnw, MVNW_OPTIONS: "-Pdev clean package" }
 
 
   tasks:
     - include: tasks/prepare-app-install.yml
-      vars:
-        app_profiles: common,oracle-dev
+#      vars:
+#        app_profiles: common,oracle-dev
     - include: tasks/install-app.yml
       vars:
         container_list: [

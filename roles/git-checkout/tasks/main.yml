@@ -1,4 +1,11 @@
 ---
 
+- debug: msg="Checkout to {{GIT_CHECKOUT_DIR}}"
+
+- name: Create GIT_CHECKOUT_DIR directory
+  run_once: true
+  local_action: file path="{{GIT_CHECKOUT_DIR}}" state=directory
+
 - name: "Git Checkout."
+  run_once: true
   local_action: git repo={{GIT_REPO}} dest={{GIT_CHECKOUT_DIR}} key_file={{GIT_KEY_FILE}}
