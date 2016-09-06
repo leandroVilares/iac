@@ -8,6 +8,9 @@ proxy_env:
 # Nome da aplicação
 app_name: romaneio
 
+# Caminho para o arquivo da aplicação
+APP_FILE_PATH: "/Users/saulo/Magazine/Logistica/APIs/Romaneio/workspace/Romaneio/target/Romaneio-0.0.1-SNAPSHOT.war"
+
 # Diretório de instalação da aplicação
 app_install_dir: "/apps/apis/"
 

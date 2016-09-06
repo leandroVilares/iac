@@ -12,17 +12,17 @@
     with_items:
       - "temp/{{app_name}}"
 
-  - name: Discover app jar name
-    run_once: true
-    local_action: shell basename $(ls {{GIT_CHECKOUT_DIR}}/target/*.?ar | head -1)
-    register: app_jar_name
-
   - name: "Copy files to temp/{{app_name}}"
     run_once: true
     local_action: copy src="{{item}}" dest="temp/{{app_name}}"
     with_items:
-      - "{{GIT_CHECKOUT_DIR}}/target/{{app_jar_name.stdout_lines[0]}}"
+      - "{{APP_FILE_PATH}}"
       - resources/run.sh
+
+  - name: Discover app jar name
+    run_once: true
+    local_action: shell basename $(ls {{APP_FILE_PATH}} | head -1)
+    register: app_jar_name
 
   - name: "Set jar name in run.sh"
     run_once: true
