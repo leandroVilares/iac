@@ -3,20 +3,21 @@
   remote_user: clouduser
 
   roles:
-    - prepare-host-server
-    - install-docker-server
+    #- prepare-host-server
+    #- install-docker-server
     - git-checkout
     #- { role: run-mvnw, MVNW_OPTIONS: "-Dmaven.test.skip=true -Phml" } #-e -X  -Dmaven.test.skip=true
 
 
   tasks:
-    - include: tasks/prepare-app-install.yml
-
-    - include: tasks/install-app.yml
-      vars:
-        container_list: [
-          {
-            name: romaneio-api-1,
-            ports: "8080:8080/tcp"
-          }
-        ]
+    - include: tasks/build-app.yml
+#    - include: tasks/prepare-app-install.yml
+#
+#    - include: tasks/install-app.yml
+#      vars:
+#        container_list: [
+#          {
+#            name: romaneio-api-1,
+#            ports: "8080:8080/tcp"
+#          }
+#        ]

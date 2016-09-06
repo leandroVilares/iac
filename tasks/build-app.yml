@@ -1,0 +1,6 @@
+---
+  - name: Cleaning project
+    local_action: shell chdir={{GIT_CHECKOUT_DIR}} mvn -Phml clean
+
+  - name: Building project
+    local_action: shell chdir={{GIT_CHECKOUT_DIR}} mvn -Dmaven.test.skip=true -Phml install
