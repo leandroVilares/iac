@@ -4,5 +4,8 @@ Para que o servidor de aplicação esteja devidamente configurado execute o coma
 $ ansible-playbook --private-key=./ssh_keys/id_rsa -i ./inventory [dev|hml|prd]-install.yml
     Aguarde, pois a execução demora alguns minutos.
 
+
+Edite o arquivo group_vars/all e altere insira o path para o binário da aplicação na propriedade “APP_FILE_PATH” 
+
 Após a execução desses passos o servidor deverá estar devidamente configurado.
 O diretório onde o projeto foi instlado é: /home/clouduser/apps/apis/romaneio.

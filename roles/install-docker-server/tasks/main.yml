@@ -36,7 +36,7 @@
 
 - name: Install docker-py module
   become: yes
-  command: pip install --proxy={{proxy_env.http_proxy}} docker-py
+  command: pip install docker-py==1.9 --proxy={{proxy_env.http_proxy}}
 
 
 - name: Configure Docker HTTP Proxy
